@@ -21,6 +21,15 @@ const readCSV = async (filePath: string): Promise<Dados[]> => {
         .on('error', (error) => reject(error));
     });
 };
+const lerCSV = async () => {
+    try {
+        const dadosLidos = await readCSV('./estoque.csv');
+        console.log("Nome | Peso | Valor | Quantidade");
+        console.log(dadosLidos[0].nome, dadosLidos[0].peso, dadosLidos[0].valor, dadosLidos[0].quantidade);
+    } catch (error) {
+        console.log('erro: ',error);
+    }
+   }
 
 const writeCSV = async (filePath: string, data: Dados[]): Promise<void> => {
     const csvWriter = createCsvWriter({
@@ -36,18 +45,9 @@ const writeCSV = async (filePath: string, data: Dados[]): Promise<void> => {
     return csvWriter.writeRecords(data);
 };
 
-
 //menu
 console.log("Bem vindo\n1: Adicionar Produto\n2: Remover Produto\n3: Ver Estoque");
 var entrada = input('Digite a operacao: ');
 if(entrada == '3'){
-   const lerCSV = async () => {
-    try {
-        const dadosLidos = await readCSV('./estoque.csv');
-        console.log(dadosLidos);
-    } catch (error) {
-        console.log('erro: ',error);
-    }
-   }
    lerCSV();
 }
