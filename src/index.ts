@@ -31,6 +31,37 @@ const lerCSV = async () => {
             for(var i = 0; i < dadosLidos.length; i++){
                 console.log(dadosLidos[i].nome, dadosLidos[i].peso, dadosLidos[i].valor, dadosLidos[i].quantidade);
             }
+            console.log('\nDados:')
+
+            var valorTotal = 0;
+            for(var i = 0; i < dadosLidos.length; i++){
+            valorTotal = valorTotal + dadosLidos[i].quantidade * dadosLidos[i].valor;
+            }
+            console.log('O valor total do estoque é de $',valorTotal);
+
+            var pesoTotal = 0;
+            for (let i = 0; i < dadosLidos.length; i++) {
+                pesoTotal = pesoTotal + dadosLidos[i].peso;
+            }
+            console.log('O peso total do estoque é de', pesoTotal,'Kg');
+
+            var somaValores = 0;
+            for (let i = 0; i < dadosLidos.length; i++) {
+                somaValores = somaValores + dadosLidos[i].valor;
+            }
+            var mediaValores = somaValores / dadosLidos.length;
+            console.log('A media dos valores é de $', mediaValores);
+
+            var mediaPeso = pesoTotal / dadosLidos.length;
+            console.log('O peso medio do estoque é de', mediaPeso,'Kg');
+
+            var quantTotal = 0;
+            for (let i = 0; i < dadosLidos.length; i++) {
+                quantTotal = quantTotal + dadosLidos[i].quantidade;  
+            }
+            console.log('A quantidade total de itens é', quantTotal);
+
+            console.log('A quantidade de produtos é', dadosLidos.length)
         }
     } catch (error) {
         console.log('erro: ',error);
@@ -104,7 +135,7 @@ async function removerCSV() {
 //menu
 var entrada;
 async function main() {
-    console.log('\n0: Encerrar Programa\n1: Adicionar Produto\n2: Remover Produto\n3: Ver Estoque')
+    console.log('\n0: Encerrar Programa\n1: Adicionar Produto\n2: Remover Produto\n3: Ver Estoque e seus dados')
     entrada = input('Digite a operação: ');
     
     switch (entrada) {
