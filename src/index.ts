@@ -61,13 +61,17 @@ async function escreverCSV() {
         quantidade: quantP
     } as Dados
 
-    var data = await readCSV('./estoque.csv');
-    data.push(dadosLidos);
-     
-    csvWriter.writeRecords(data)
-        .then(() => {
-            console.log('Produto adicionado no estoque com sucesso!');
-        });
+    if(typeof dadosLidos.nome !== 'string' || isNaN(dadosLidos.peso) || isNaN(dadosLidos.quantidade) || isNaN(dadosLidos.valor)){
+        console.log('Dados inválidos para o produto');
+    } else {
+        var data = await readCSV('./estoque.csv');
+        data.push(dadosLidos);
+         
+        csvWriter.writeRecords(data)
+            .then(() => {
+                console.log('Produto adicionado no estoque com sucesso!');
+            });
+    }
 }
 
 async function removerCSV() {
@@ -85,6 +89,8 @@ async function removerCSV() {
                 .then(() => {
                     console.log('Produto removido do estoque com sucesso!');
                 });
+            } else {
+                console.log('Operação cancelada pelo usuario')
             }
             break;
         } else {
@@ -101,14 +107,19 @@ async function main() {
     console.log('\n0: Encerrar Programa\n1: Adicionar Produto\n2: Remover Produto\n3: Ver Estoque')
     entrada = input('Digite a operação: ');
     
-    if(entrada == '1'){
-        await escreverCSV();  
-    }
-    if(entrada == '2'){
-        await removerCSV();
-    }
-    if(entrada == '3'){
-        await lerCSV();
+    switch (entrada) {
+        case '0':
+            console.log('Programa Encerrado')
+            break;
+        case '1':
+            await escreverCSV();
+            break;
+        case '2':
+            await removerCSV();
+            break;
+        case '3':
+            await lerCSV();
+            break;
     }
 }
 main();
