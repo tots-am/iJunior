@@ -97,11 +97,10 @@ async function escreverCSV() {
     } else {
         var data = await readCSV('./estoque.csv');
         data.push(dadosLidos);
-         
         csvWriter.writeRecords(data)
-            .then(() => {
-                console.log('Produto adicionado no estoque com sucesso!');
-            });
+        .then(() => {
+            console.log('Produto adicionado no estoque com sucesso!');
+        });
     }
 }
 
