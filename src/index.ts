@@ -70,19 +70,45 @@ async function escreverCSV() {
         });
 }
 
-//menu
-do {
-    var entrada;
-    async function main() {
-        console.log('0: Encerrar Programa\n1: Ver Estoque\n2: Adicionar Produto')
-        entrada = input('Digite a operação: ');
-
-        if(entrada == '1'){
-            await lerCSV();
-        }
-        if(entrada == '2'){
-            await escreverCSV();  
+async function removerCSV() {
+    var dadosLidos = await readCSV('./estoque.csv');
+    var nomeP = input('Digite o nome do produto a ser removido: ')
+    for(var i = 0; i < dadosLidos.length; i++){
+        if(dadosLidos[i].nome == nomeP){
+            var confirm;
+            do {
+                confirm = input('Deseja remover esse produto? [Y/N] ')
+            } while (confirm != 'Y' && confirm != 'N');
+            if(confirm === 'Y'){
+                dadosLidos = dadosLidos.filter(item => item !== dadosLidos[i]);
+                csvWriter.writeRecords(dadosLidos)
+                .then(() => {
+                    console.log('Produto removido do estoque com sucesso!');
+                });
+            }
+            break;
+        } else {
+            if(i == dadosLidos.length - 1){
+                console.log('Produto não encontrado');
+            }
         }
     }
-    main();
-} while (entrada !== '0');
+}
+
+//menu
+var entrada;
+async function main() {
+    console.log('\n0: Encerrar Programa\n1: Adicionar Produto\n2: Remover Produto\n3: Ver Estoque')
+    entrada = input('Digite a operação: ');
+    
+    if(entrada == '1'){
+        await escreverCSV();  
+    }
+    if(entrada == '2'){
+        await removerCSV();
+    }
+    if(entrada == '3'){
+        await lerCSV();
+    }
+}
+main();
