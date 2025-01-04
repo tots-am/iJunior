@@ -6,7 +6,9 @@ IMPORTANTE!
 >> E é tambem por essa razão que gostaria de agradecer a vocês por essa oportunidade de passar por
 >> esse processo de aprendizagem, no qual eu superei desafios e obstáculos que achei que seriam
 >> impensáveis para mim a apenas algumas semanas atras.
->> Obrigado. ;)
+>> Obrigado. 
+>> ah, e por algum motivo não consigo de jeito nenhum fazer as funções funcionarem no while...
+>> (na minha cabeça o await ia resolver mas parece que não)
 */
 //imports
 import { lerCSV } from './service/funcoesEstoque';
@@ -26,16 +28,16 @@ const main = async() => {
             console.log('Programa Encerrado')
             break;
         case '1':
-            await escreverCSV()
+            await escreverCSV();
             break;
         case '2':
-            await removerCSV()
+            await removerCSV();
             break;
         case '3':
-            await lerCSV()
+            await lerCSV();
             break;
     }
 }
-while (entrada != 0) {
-    main();
-}
+//while (entrada != 0) {
+    main()
+//}
