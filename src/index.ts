@@ -1,26 +1,11 @@
 //imports
 import fs from 'fs';
-import csv from 'csv-parser';
-
+import { Dados } from './model/interface';
+import { writeCSV } from './model/writeCSV';
+import { readCSV } from './model/readCSV';
 const input = require('prompt-sync')({sigint: true});
 
-interface Dados{
-    nome: string;
-    peso: number;
-    valor: number;
-    quantidade: number;
-}
 //funçoes
-const readCSV = async (filePath: string): Promise<Dados[]> => {
-    return new Promise((resolve, reject) => {
-      const results: Dados[] = [];
-      fs.createReadStream(filePath)
-        .pipe(csv())
-        .on('data', (data: Dados) => results.push(data))
-        .on('end', () => resolve(results))
-        .on('error', (error) => reject(error));
-    });
-};
 const lerCSV = async () => {
     try {
         const dadosLidos = await readCSV('./estoque.csv');
@@ -68,17 +53,6 @@ const lerCSV = async () => {
     }
 }
 
-const createCsvWriter = require('csv-writer').createObjectCsvWriter;
-const csvWriter = createCsvWriter({
-    path: './estoque.csv',
-    header: [
-        {id: 'nome', title: 'nome'},
-        {id: 'peso', title: 'peso'},
-        {id: 'valor', title: 'valor'},
-        {id: 'quantidade', title: 'quantidade'},
-    ]
-});
-
 async function escreverCSV() {
 
     var nomeP = input('Digite o nome do produto: ')
@@ -107,15 +81,9 @@ async function escreverCSV() {
         if(csvExists == true){
             var data = await readCSV('./estoque.csv');
             data.push(dadosLidos);
-            csvWriter.writeRecords(data)
-            .then(() => {
-            console.log('Produto adicionado no estoque com sucesso!');
-            });
+            writeCSV(data, './estoque.csv', 'Produto adicioado com sucesso!');
         } else {
-            csvWriter.writeRecords([dadosLidos])
-            .then(()=>{
-                console.log('Estoque iniciado')
-            });
+            writeCSV([dadosLidos], './estoque.csv', 'Estoque iniciado com sucesso!');
         }
     }
 }
@@ -128,13 +96,10 @@ async function removerCSV() {
             var confirm;
             do {
                 confirm = input('Deseja remover esse produto? [Y/N] ')
-            } while (confirm != 'Y' && confirm != 'N');
-            if(confirm === 'Y'){
+            } while (confirm != 'Y' && confirm != 'N' && confirm != 'y' && confirm != 'n');
+            if(confirm === 'Y' || confirm === 'y'){
                 dadosLidos = dadosLidos.filter(item => item !== dadosLidos[i]);
-                csvWriter.writeRecords(dadosLidos)
-                .then(() => {
-                    console.log('Produto removido do estoque com sucesso!');
-                });
+                writeCSV(dadosLidos, './estoque.csv', 'Produto removido com sucesso!');
             } else {
                 console.log('Operação cancelada pelo usuario')
             }
