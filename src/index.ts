@@ -80,27 +80,43 @@ const csvWriter = createCsvWriter({
 });
 
 async function escreverCSV() {
+
     var nomeP = input('Digite o nome do produto: ')
     var pesoP = input('Digite o peso do produto: ')
     var valorP = input('Digite o valor do produto: ')
     var quantP = input('Digite a quantidade do produto: ')
 
-    const dadosLidos = {
+    var dadosLidos:Dados = {
         nome: nomeP,
         peso: pesoP,
         valor: valorP,
         quantidade: quantP
-    } as Dados
+    }
+
+    var csvExists = true;
+    try {
+        fs.accessSync('./estoque.csv', fs.constants.F_OK);
+        csvExists = true;
+    } catch (err) {
+        csvExists = false;
+    }
 
     if(typeof dadosLidos.nome !== 'string' || isNaN(dadosLidos.peso) || isNaN(dadosLidos.quantidade) || isNaN(dadosLidos.valor)){
         console.log('Dados inválidos para o produto');
     } else {
-        var data = await readCSV('./estoque.csv');
-        data.push(dadosLidos);
-        csvWriter.writeRecords(data)
-        .then(() => {
+        if(csvExists == true){
+            var data = await readCSV('./estoque.csv');
+            data.push(dadosLidos);
+            csvWriter.writeRecords(data)
+            .then(() => {
             console.log('Produto adicionado no estoque com sucesso!');
-        });
+            });
+        } else {
+            csvWriter.writeRecords([dadosLidos])
+            .then(()=>{
+                console.log('Estoque iniciado')
+            });
+        }
     }
 }
 
