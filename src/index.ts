@@ -4,7 +4,7 @@ IMPORTANTE!
 >> Peço ao senhor(a) que avalie esta atividade com o coração aberto, uma vez que esse é meu
 >> primeiro projeto com TS e JS e com qualquer linguagem orientada a Objetos.
 >> E é tambem por essa razão que gostaria de agradecer a vocês por essa oportunidade de passar por
->> esse processo de aprendizagem, no qual eu superei desafios e obstáculos que achei que seriam
+>> esse processo de aprendizagem, no qual eu superei desafios e obstáculos que achei que eram
 >> impensáveis para mim a apenas algumas semanas atras.
 >> Obrigado. 
 >> ah, e por algum motivo não consigo de jeito nenhum fazer as funções funcionarem no while...
